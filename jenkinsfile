@@ -9,13 +9,13 @@ pipeline {
         DOCKER_IMAGE = "myapp:${params.VERSION}"
     }
 
-    stages {
-        stage('Build') {
-            steps {
-                echo "Building version ${params.VERSION}"
-                sh 'make build' // or your build command
-            }
-        }
+    stage('Build') {
+    steps {
+        echo "Building version ${params.VERSION}"
+        sh 'echo "Simulating build..."'
+          }
+    }
+
 
         stage('Test') {
             steps {
