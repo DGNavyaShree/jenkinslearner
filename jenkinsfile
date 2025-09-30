@@ -1,32 +1,51 @@
 pipeline {
     agent any
 
+    parameters {
+        string(name: 'VERSION', defaultValue: '1.0.0', description: 'App version')
+    }
+
+    environment {
+        NODE_ENV = 'production'
+    }
+
     stages {
         stage('Build') {
             steps {
-                echo 'Building...'
+                echo "Installing dependencies for version ${params.VERSION}"
+                sh 'npm install'
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Testing...'
+                echo 'Running tests...'
+                sh 'npm test'
             }
         }
 
         stage('Deploy') {
             steps {
-                echo 'Deploying...'
+                echo "Deploying version ${params.VERSION}"
+                // Simulated deploy step
+                sh 'echo "Deploying to production..."'
+            }
+        }
+
+        stage('Notify') {
+            steps {
+                echo 'Sending notification...'
+                // Add Slack or email integration here if needed
             }
         }
     }
 
     post {
         success {
-            echo 'Pipeline completed successfully!'
+            echo '✅ Pipeline completed successfully!'
         }
         failure {
-            echo 'Pipeline failed.'
+            echo '❌ Pipeline failed. Please check the logs.'
         }
     }
 }
